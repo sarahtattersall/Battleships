@@ -1,4 +1,3 @@
-package Battleships;
 trait Result
 case object Hit extends Result
 case object Miss extends Result

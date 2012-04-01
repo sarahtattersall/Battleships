@@ -1,16 +1,14 @@
 import swing._
-// class Display extends SimpleSwingApplication {
-//   def top = new MainFrame {
-//     title = "Battleships"
-//     contents = new Button {
-//       text = "Click me"
-//     }
-//   }
-// }
-
-class Display extends MainFrame {
+import scala.collection.mutable._
+import java.awt.Dimension
+class Display (size: Int) extends MainFrame {
+  def gridSize = size
   title = "Battleships"
-  contents = new Button {
-    text = "Click me!"
+  var dim = new Dimension (20, 20)
+  val gridPanel = new GridPanel(size, size){
+    contents.insertAll (0, Buffer.tabulate(gridSize * gridSize)(x => new Button(){
+      preferredSize = dim
+    }))
   }
+  contents = gridPanel
 }

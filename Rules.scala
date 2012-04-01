@@ -2,8 +2,8 @@ trait Result
 case object Hit extends Result
 case object Miss extends Result
 
-class Rules {
-  val board = new Board(20)
+class Rules (size: Int) {
+  val board = new Board(size)
 
   def guess (x: Int, y: Int) : Result = {
     board.lookup (x, y) match {

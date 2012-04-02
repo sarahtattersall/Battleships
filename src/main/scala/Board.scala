@@ -1,3 +1,4 @@
+//package Battleships
 trait Status
 case object Empty extends Status
 case object Alive extends Status

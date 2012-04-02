@@ -2,12 +2,21 @@ import swing._
 import scala.collection.mutable._
 import java.awt.Dimension
 import java.awt.Color
+import java.awt.event.MouseAdapter
+
 class GridCell (s: Status) extends Button {
   preferredSize = new Dimension (20, 20)
   background = Color.RED
   text = "X"
   opaque = true
   def status = s
+  listenTo (mouse.clicks)
+  reactions += {
+    case mouseClicked => {
+      text = "S"
+      println ("Clicked")
+    }
+  }
 }
 
 class Display (size: Int) extends MainFrame {

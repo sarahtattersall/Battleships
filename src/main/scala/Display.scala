@@ -1,10 +1,9 @@
-//package Battleships
 import swing._
 import scala.collection.mutable._
 import java.awt.Dimension
 import java.awt.Color
 class GridCell (s: Status) extends Button {
-  preferredSize = new Dimension (50, 50)
+  preferredSize = new Dimension (20, 20)
   background = Color.RED
   text = "X"
   opaque = true

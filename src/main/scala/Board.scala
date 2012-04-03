@@ -10,6 +10,7 @@ class Cell (s : Status){
 class Board (size: Int) {
   def boardSize = size
   var cells = Array.tabulate(size,size)((x,y) => new Cell(Empty))
+  
   def update (x: Int, y: Int, s : Status) {
     cells(x)(y).status = s
   }

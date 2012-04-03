@@ -9,7 +9,7 @@ class Rules (size: Int) {
     val cell = board.lookup (coord) 
     cell.status match {
       case Occupied => {
-        cell.ship.status = Alive
+        cell.ship.map((s: Ship) => s.status = Alive)
         Hit
       }
       case _ => Miss

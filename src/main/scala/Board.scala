@@ -1,21 +1,24 @@
-trait Status
-case object Empty extends Status
-case object Alive extends Status
-case object Dead extends Status
+trait BoardStatus
+case object Empty extends BoardStatus
+case object Occupied extends BoardStatus
 
-class Cell (s : Status){
-  var status = s
-}
+// TODO:
+// Investigate a better way than passing null
+case class Cell (var status : BoardStatus = Empty, var ship: Ship = null)
 
 class Board (size: Int) {
   def boardSize = size
-  var cells = Array.tabulate(size,size)((x,y) => new Cell(Empty))
+  var cells = Array.tabulate(size,size)((x,y) => new Cell())
   
-  def update (x: Int, y: Int, s : Status) {
-    cells(x)(y).status = s
+  def updateShip (coord: Coord, ship: Ship) {
+    cells(coord.x)(coord.y).ship = ship
+  }
+  
+  def updateStatus (coord: Coord, status: BoardStatus) {
+    cells(coord.x)(coord.y).status = status
   }
 
-  def lookup (x: Int, y: Int) : Status = {
-    cells(x)(y).status
+  def lookup (coord: Coord) : Cell = {
+    cells(coord.x)(coord.y)
   }
 }

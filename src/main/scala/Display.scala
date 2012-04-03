@@ -4,7 +4,7 @@ import java.awt.Dimension
 import java.awt.Color
 import java.awt.event.MouseAdapter
 
-class GridCell (s: Status) extends Button {
+class GridCell (s: BoardStatus) extends Button {
   preferredSize = new Dimension (20, 20)
   background = Color.RED
   text = "X"

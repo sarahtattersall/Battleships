@@ -1,5 +1,5 @@
 import swing._
-import scala.collection.mutable._
+import scala.collection.mutable.Buffer
 import java.awt.Dimension
 import java.awt.Color
 import java.awt.event.MouseAdapter

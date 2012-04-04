@@ -5,7 +5,8 @@ case object Miss extends Result
 class Rules (size: Int) {
   def board = new Board(size)
   var sizes = Array(5, 4, 3, 3, 2)
-  def fleet = Array.tabulate(5)(x => new Ship(sizes(x)))
+  def fleet = Array.tabulate(sizes.size)(x => new Ship(sizes(x)))
+  
   def guess (coord: Coord) : Result = {
     val cell = board.lookup (coord) 
     cell.status match {

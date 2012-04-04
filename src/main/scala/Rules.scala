@@ -25,7 +25,7 @@ class Rules (size: Int) {
       case Empty => {
         board.updateStatus (coord, Occupied)
         board.updateShip (coord, ship)
-        true
+        return ship.add (coord)
       }
       case _ => false 
     }

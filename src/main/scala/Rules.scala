@@ -20,7 +20,7 @@ class Rules (size: Int) {
   // TODO:
   // Cant decide if should place all individual components or 
   // have placeShip (x: int, y: Int, size: Int, direction: Direction)
-  def placeShip (coord: Coord, ship: Ship) : Boolean = {
+  def placeShip (coord: Coord, vector: Vec, ship: Ship) : Boolean = {
     board.lookup (coord).status match {
       case Empty => {
         board.updateStatus (coord, Occupied)

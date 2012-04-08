@@ -1,8 +1,13 @@
 import swing._
 import scala.collection.mutable.Buffer
-import java.awt.Dimension
-import java.awt.Color
+//import scala.collection.immutable.Vector
+import scala.collection.immutable.List
+import java.awt.{Dimension, Color}
 import java.awt.event.MouseAdapter
+// import java.awt.Color
+// import java.awt.event.MouseAdapter
+import javax.swing.table.DefaultTableModel
+import javax.swing.JTable
 
 case class GridCell (var status: BoardStatus = Empty) extends Button {
   preferredSize = new Dimension (20, 20)
@@ -21,8 +26,24 @@ case class GridCell (var status: BoardStatus = Empty) extends Button {
 class Display (size: Int) extends MainFrame {
   def gridSize = size
   title = "Battleships"
-  val gridPanel = new GridPanel(size, size){
-    contents.insertAll (0, Buffer.tabulate(gridSize * gridSize)(x => new GridCell()))
+  val table = new Table(size,size){
+    preferredSize = new Dimension (200, 200)
+    showGrid = true
   }
-  contents = gridPanel
+  contents = new ScrollPane (table){
+    import java.util.Vector
+    //peer.setRowHeaderView (new Table (Array.tabulate(gridSize,1)((x,y) => x), Seq(1)))
+    //val headers = new Vector[Int]()
+    //for (i <- 0 to gridSize){
+    //  headers.add (i)
+    //}
+    //val v: java.util.Vector[Int] = (Vector.tabulate(gridSize)((x) => x))
+    val model = new DefaultTableModel (0, 1)
+    for (i <- 0 to gridSize){
+      model.addRow (new Vector[String] (){
+        add ("1")
+      })
+    }
+    peer.setRowHeaderView (new JTable (new DefaultTableModel (gridSize, 1)))
+  }
 }

@@ -11,7 +11,7 @@ class Rules (size: Int) {
     val cell = board.lookup (coord) 
     cell.status match {
       case Occupied => {
-        cell.ship.map((s: Ship) => s.status = Alive)
+        cell.ship.map((s: ShipPiece) => s.status = Sunk)
         Hit
       }
       case _ => Miss
@@ -20,12 +20,12 @@ class Rules (size: Int) {
   // TODO:
   // Cant decide if should place all individual components or 
   // have placeShip (x: int, y: Int, size: Int, direction: Direction)
-  def placeShip (coord: Coord, vector: Vec, ship: Ship) : Boolean = {
+  def placePiece (coord: Coord, vector: Vec, piece: ShipPiece) : Boolean = {
     board.lookup (coord).status match {
       case Empty => {
         board.updateStatus (coord, Occupied)
-        board.updateShip (coord, ship)
-        return ship.add (coord)
+        board.updateShip (coord, piece)
+         true
       }
       case _ => false 
     }

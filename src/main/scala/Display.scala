@@ -1,4 +1,4 @@
-import swing._
+/*import swing._
 import scala.collection.mutable.Buffer
 //import scala.collection.immutable.Vector
 import scala.collection.immutable.List
@@ -46,4 +46,4 @@ class Display (size: Int) extends MainFrame {
     }
     peer.setRowHeaderView (new JTable (new DefaultTableModel (gridSize, 1)))
   }
-}
+}*/

@@ -1,11 +1,15 @@
 import scala.collection.immutable.List
 trait BoardStatus
-case object Empty extends BoardStatus
+case object Empty extends BoardStatus 
 case object Occupied extends BoardStatus
 
 case class Cell (var status : BoardStatus = Empty, var ship: Option[ShipPiece] = None){
   override def toString = {
-    "Hi"
+    //ship.map((s :ShipPiece) ->
+    ship match {
+      case Some (piece) => piece.status.toString()
+      case None => "_"
+    }
   }
 }
 
@@ -26,7 +30,14 @@ class Board (size: Int) {
   }
   
   override def toString = {
-    
-    "Hello"
+    var result = Range(0, boardSize).foldLeft("")((a,b) => a + b.toString() + ", ")
+    result = result + "\n"
+    for (i <- 0 to boardSize - 1){
+      for (j <- 0 to boardSize - 1){
+        result = result + cells(i)(j).toString() + ", "
+      }
+      result = result + "\n"
+    }
+    result
   }
 }

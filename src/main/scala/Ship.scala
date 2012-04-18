@@ -1,9 +1,13 @@
 import scala.collection.mutable.HashMap
-trait ShipStatus
-case object Alive extends ShipStatus
-case object Sunk extends ShipStatus
-
 import scala.collection.mutable.LinkedList
+trait ShipStatus
+case object Alive extends ShipStatus {
+  override def toString = "A"
+}
+case object Sunk extends ShipStatus {
+  override def toString = "S"
+}
+
 trait componentStatus
 case object Healthy extends componentStatus
 case object Wounded extends componentStatus

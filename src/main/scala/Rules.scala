@@ -3,9 +3,10 @@ case object Hit extends Result
 case object Miss extends Result
 
 class Rules (size: Int) {
-  def board = new Board(size)
-  var sizes = Array(5, 4, 3, 3, 2)
-  def fleet = Array.tabulate(sizes.size)(x => new Ship(sizes(x)))
+  val board = new Board(size)
+  val coordSpace = new CoordinateSpace(size, size)
+  val sizes = List(5, 4, 3, 3, 2)
+  val fleet = Array.tabulate(sizes.size)(x => new Ship(sizes(x)))
   
   def guess (coord: Coord) : Result = {
     val cell = board.lookup (coord) 
@@ -29,5 +30,35 @@ class Rules (size: Int) {
       }
       case _ => false 
     }
+  }
+  
+  def getInput (msg : String, lowerBound: Int, upperBound: Int): Int = {
+    println (msg)
+    val res = Console.readInt()
+    if (lowerBound <= res && upperBound >= res)
+      res
+    else
+      getInput ("Not within bounds, try again", lowerBound, upperBound)
+  }
+  
+  def setup () {
+    println (board.toString())
+    sizes.foreach(setupShip(_))
+  }
+  
+  def setupShip (size: Int) {
+    val ship = new Ship(size)
+    println ("Placing your ship of size " + size)
+    val x = getInput ("Please enter x coord", 0, board.boardSize)
+    val y = getInput ("Please enter y coord", 0, board.boardSize)
+    val i = getInput ("Please enter x direction", -1, 1)
+    val j = getInput ("Please enter y direction", -1, 1)
+    var coord = new Coord(x, y)
+    val vec = new Vec(i, j)
+    for (i <- 0 to size){
+      board.updateShip(coord, ship.getPiece(i))
+      coord = coordSpace.move(coord, vec)
+    }
+    println (board.toString())
   }
 }

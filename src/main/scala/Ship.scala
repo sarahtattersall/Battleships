@@ -8,38 +8,20 @@ case object Sunk extends ShipStatus {
   override def toString = "S"
 }
 
-trait componentStatus
-case object Healthy extends componentStatus
-case object Wounded extends componentStatus
+// trait componentStatus
+// case object Healthy extends componentStatus
+// case object Wounded extends componentStatus
 
 case class Ship (var size: Int, var status: ShipStatus = Alive){
-  //var coords = new HashMap[Coord, componentStatus] ()
-  var ships = new LinkedList[ShipPiece]()
-  
-  def add (piece: ShipPiece) {
-    //TODO Is this Scala-esque?
-    ships = ships :+ piece
+   var ships = List[ShipPiece]()
+  for (i <- 0  to size){
+    ships = new ShipPiece(this) :: ships
   }
   
-  /*def add (coord: Coord, status: componentStatus = Healthy) : Boolean = {
-    if (coords.size < size){
-      coords += ((coord, status))
-      return true
-    }
-    return false
+  //TODO: Bounds checking
+  def getPiece (index: Int): ShipPiece = {
+    ships(index)
   }
-  
-  def update (coord: Coord, status: componentStatus) : Boolean = {
-    coords.get (coord) match {
-      case Some(x) => {
-        coords.update (coord, status)
-        true
-      }
-      case _ => false
-    }
-  }*/
 }
 
-case class ShipPiece (ship: Ship, var status: ShipStatus = Alive){
-  ship.add (this)
-}
+case class ShipPiece (ship: Ship, var status: ShipStatus = Alive)

@@ -1,4 +1,5 @@
 import scala.collection.immutable.List
+import scala.collection.mutable.StringBuilder
 trait BoardStatus
 case object Empty extends BoardStatus 
 case object Occupied extends BoardStatus
@@ -30,14 +31,15 @@ class Board (size: Int) {
   }
   
   override def toString = {
-    var result = Range(0, boardSize).foldLeft("")((a,b) => a + b.toString() + ", ")
-    result = result + "\n"
+    var result = new StringBuilder(Range(0, boardSize).foldLeft("")((a,b) => a + b.toString() + ", "))
+    
+    result.append("\n")
     for (i <- 0 to boardSize - 1){
       for (j <- 0 to boardSize - 1){
-        result = result + cells(i)(j).toString() + ", "
+        result.append(cells(i)(j).toString() + ", ")
       }
-      result = result + "\n"
+      result.append("\n")
     }
-    result
+    result.toString()
   }
 }

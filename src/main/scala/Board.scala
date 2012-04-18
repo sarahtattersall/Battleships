@@ -31,12 +31,13 @@ class Board (size: Int) {
   }
   
   override def toString = {
-    var result = new StringBuilder(Range(0, boardSize).foldLeft("")((a,b) => a + b.toString() + ", "))
+    var result = new StringBuilder("   " + Range(0, boardSize).foldLeft("")((a,b) => a + b.toString() + ", "))
     
     result.append("\n")
     for (i <- 0 to boardSize - 1){
+      result.append(i)
       for (j <- 0 to boardSize - 1){
-        result.append(cells(i)(j).toString() + ", ")
+        result.append(", " + cells(i)(j).toString())
       }
       result.append("\n")
     }

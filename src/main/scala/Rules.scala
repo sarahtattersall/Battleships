@@ -34,11 +34,20 @@ class Rules (size: Int) {
   
   def getInput (msg : String, lowerBound: Int, upperBound: Int): Int = {
     println (msg)
-    val res = Console.readInt()
-    if (lowerBound <= res && upperBound >= res)
-      res
-    else
-      getInput ("Not within bounds, try again", lowerBound, upperBound)
+    try { 
+      val res = Console.readInt()    
+      if (lowerBound <= res && upperBound >= res){
+        res
+      }
+      else {
+        getInput ("Not within bounds, try again", lowerBound, upperBound)
+      }
+    }
+    catch {
+      case e : java.lang.NumberFormatException => 
+        getInput ("Bad Input, try again", lowerBound, upperBound)
+    }
+
   }
   
   def setup () {
@@ -46,6 +55,8 @@ class Rules (size: Int) {
     sizes.foreach(setupShip(_))
   }
   
+  //TODO
+  // Ensure x, y can't cause wrap around and ensure vec cant be 0, 0 
   def setupShip (size: Int) {
     val ship = new Ship(size)
     println ("Placing your ship of size " + size)
@@ -55,7 +66,7 @@ class Rules (size: Int) {
     val j = getInput ("Please enter y direction", -1, 1)
     var coord = new Coord(x, y)
     val vec = new Vec(i, j)
-    for (i <- 0 to size){
+    for (i <- 0 to size - 1){
       board.updateShip(coord, ship.getPiece(i))
       coord = coordSpace.move(coord, vec)
     }

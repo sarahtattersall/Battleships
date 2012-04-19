@@ -55,21 +55,41 @@ class Rules (size: Int) {
     sizes.foreach(setupShip(_))
   }
   
-  //TODO
-  // Ensure x, y can't cause wrap around and ensure vec cant be 0, 0 
-  def setupShip (size: Int) {
-    val ship = new Ship(size)
-    println ("Placing your ship of size " + size)
+  def getCoord(): Coord = {
     val x = getInput ("Please enter x coord", 0, board.boardSize)
     val y = getInput ("Please enter y coord", 0, board.boardSize)
+    new Coord (x,y)
+  }
+  
+  def getVector(): Vec = {
     val i = getInput ("Please enter x direction", -1, 1)
     val j = getInput ("Please enter y direction", -1, 1)
-    var coord = new Coord(x, y)
-    val vec = new Vec(i, j)
-    for (i <- 0 to size - 1){
-      board.updateShip(coord, ship.getPiece(i))
-      coord = coordSpace.move(coord, vec)
+    if (i == 0 && j == 0) {
+      println ("Error that isn't a proper direction, try again")
+      return getVector()
     }
-    println (board.toString())
+    new Vec (i,j)
+  }
+  
+  def inBoundary(x: Int, offset: Int): Boolean = {
+    val y = x + offset
+    (y >= 0 && y < board.boardSize)
+  }
+  def setupShip (size: Int) {
+    val sizeIndex = size - 1
+    val ship = new Ship(size)
+    println ("Placing your ship of size " + size)
+    var coord = getCoord()
+    val vec = getVector()
+    if (!inBoundary(coord.x, vec.i*sizeIndex) || !inBoundary(coord.y, vec.j*sizeIndex)){
+      println ("Placing of ship here goes out of bounds, try again")
+      setupShip (size)
+    } else {
+      for (i <- 0 to sizeIndex){
+        board.updateShip(coord, ship.getPiece(i))
+        coord = coordSpace.move(coord, vec)
+      }
+      println (board.toString())
+    }
   }
 }

@@ -11,8 +11,7 @@ case class Cell (var ship: Option[ShipPiece] = None){
   }
 }
 
-class Board (size: Int) {
-  val boardSize = size
+case class Board (size: Int) {
   var cells = Array.tabulate(size,size)((x,y) => new Cell())
   
   def updateShip (coord: Coord, piece: ShipPiece) {
@@ -24,12 +23,12 @@ class Board (size: Int) {
   }
   
   override def toString = {
-    var result = new StringBuilder("   " + Range(0, boardSize).foldLeft("")((a,b) => a + b.toString() + ", "))
+    var result = new StringBuilder("   " + Range(0, size).foldLeft("")((a,b) => a + b.toString() + ", "))
     
     result.append("\n")
-    for (i <- 0 to boardSize - 1){
+    for (i <- 0 to size - 1){
       result.append(i)
-      for (j <- 0 to boardSize - 1){
+      for (j <- 0 to size - 1){
         result.append(", " + cells(i)(j).toString())
       }
       result.append("\n")

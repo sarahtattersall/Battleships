@@ -43,8 +43,8 @@ class Rules (size: Int) {
   }
   
   def getCoord(): Coord = {
-    val x = getInput ("Please enter x coord", 0, playerBoard.boardSize)
-    val y = getInput ("Please enter y coord", 0, playerBoard.boardSize)
+    val x = getInput ("Please enter x coord", 0, playerBoard.size)
+    val y = getInput ("Please enter y coord", 0, playerBoard.size)
     new Coord (x,y)
   }
   
@@ -60,7 +60,7 @@ class Rules (size: Int) {
   
   def inBoundary(x: Int, offset: Int): Boolean = {
     val y = x + offset
-    (y >= 0 && y < playerBoard.boardSize)
+    (y >= 0 && y < playerBoard.size)
   }
   
   // TODO: Ensure can't place ontop of another ship, for now assume the user

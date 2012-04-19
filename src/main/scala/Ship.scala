@@ -13,7 +13,7 @@ case object Sunk extends ShipStatus {
 // case object Wounded extends componentStatus
 
 case class Ship (var size: Int, var status: ShipStatus = Alive){
-   var ships = List[ShipPiece]()
+  var ships = List[ShipPiece]()
   for (i <- 0  to size){
     ships = new ShipPiece(this) :: ships
   }

@@ -1,12 +1,9 @@
 import scala.collection.immutable.List
 import scala.collection.mutable.StringBuilder
 trait BoardStatus
-case object Empty extends BoardStatus 
-case object Occupied extends BoardStatus
 
-case class Cell (var status : BoardStatus = Empty, var ship: Option[ShipPiece] = None){
+case class Cell (var ship: Option[ShipPiece] = None){
   override def toString = {
-    //ship.map((s :ShipPiece) ->
     ship match {
       case Some (piece) => piece.status.toString()
       case None => "_"
@@ -22,10 +19,6 @@ class Board (size: Int) {
     cells(coord.x)(coord.y).ship = Some(piece)
   }
   
-  def updateStatus (coord: Coord, status: BoardStatus) {
-    cells(coord.x)(coord.y).status = status
-  }
-
   def lookup (coord: Coord) : Cell = {
     cells(coord.x)(coord.y)
   }

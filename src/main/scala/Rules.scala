@@ -10,25 +10,12 @@ class Rules (size: Int) {
   
   def guess (coord: Coord) : Result = {
     val cell = board.lookup (coord) 
-    cell.status match {
-      case Occupied => {
-        cell.ship.map((s: ShipPiece) => s.status = Sunk)
+    cell.ship match {
+      case Some (piece) => {
+        piece.status = Sunk
         Hit
       }
       case _ => Miss
-    } 
-  }
-  // TODO:
-  // Cant decide if should place all individual components or 
-  // have placeShip (x: int, y: Int, size: Int, direction: Direction)
-  def placePiece (coord: Coord, vector: Vec, piece: ShipPiece) : Boolean = {
-    board.lookup (coord).status match {
-      case Empty => {
-        board.updateStatus (coord, Occupied)
-        board.updateShip (coord, piece)
-         true
-      }
-      case _ => false 
     }
   }
   
@@ -75,6 +62,9 @@ class Rules (size: Int) {
     val y = x + offset
     (y >= 0 && y < board.boardSize)
   }
+  
+  // TODO: Ensure can't place ontop of another ship, for now assume the user
+  // doesn't
   def setupShip (size: Int) {
     val sizeIndex = size - 1
     val ship = new Ship(size)

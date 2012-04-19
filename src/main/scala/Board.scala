@@ -1,6 +1,5 @@
 import scala.collection.immutable.List
 import scala.collection.mutable.StringBuilder
-trait BoardStatus
 
 case class Cell (var ship: Option[ShipPiece] = None){
   override def toString = {
@@ -11,20 +10,12 @@ case class Cell (var ship: Option[ShipPiece] = None){
   }
 }
 
-case class Board (size: Int) {
-  var cells = Array.tabulate(size,size)((x,y) => new Cell())
-  
-  def updateShip (coord: Coord, piece: ShipPiece) {
-    cells(coord.x)(coord.y).ship = Some(piece)
-  }
-  
-  def lookup (coord: Coord) : Cell = {
-    cells(coord.x)(coord.y)
-  }
+trait Board {
+  val cells = Array.tabulate(size,size)((x,y) => new Cell())
+  val size : Int
   
   override def toString = {
     var result = new StringBuilder("   " + Range(0, size).foldLeft("")((a,b) => a + b.toString() + ", "))
-    
     result.append("\n")
     for (i <- 0 to size - 1){
       result.append(i)
@@ -35,4 +26,18 @@ case class Board (size: Int) {
     }
     result.toString()
   }
+  
+  def lookup (coord: Coord) : Cell = {
+    cells(coord.x)(coord.y)
+  }
+}
+
+case class PlayerBoard (size: Int) extends Board {
+  def updateShip (coord: Coord, piece: ShipPiece) {
+    cells(coord.x)(coord.y).ship = Some(piece)
+  }
+}
+
+case class AIBoard (size: Int) extends Board {
+
 }

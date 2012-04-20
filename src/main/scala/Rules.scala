@@ -8,6 +8,8 @@ class Rules (size: Int) {
   val coordSpace = new CoordinateSpace(size, size)
   val sizes = List(5, 4, 3, 3, 2)
   val fleet = Array.tabulate(sizes.size)(x => new Ship(sizes(x)))
+  createAIBoard()
+  
   
   def guess (coord: Coord) : Result = {
     val cell = playerBoard.lookup (coord) 
@@ -91,6 +93,13 @@ class Rules (size: Int) {
   
   // TODO: Come up with an algorithm to place ships
   private def createAIBoard () {
-    
+    //sizes.foreach((s: Int) => placeShip(AIBoard, s, new Coord(s,0), new Vec(0,1)))
+    val dir = new Vec(0,1)
+    sizes.foldLeft(0)((acc, size) => {
+                                      placeShip(AIBoard, size, new Coord(acc, 0), dir)
+                                      acc + 1
+                                     })
+    println("AI BOARD")
+    println(AIBoard.toString())
   }
 }

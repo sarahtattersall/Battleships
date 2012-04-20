@@ -3,7 +3,7 @@ case object Hit extends Result
 case object Miss extends Result
 
 class Rules (size: Int) {
-  val playerBoard = new PlayerBoard(size)
+  val playerBoard = new Board(size)
   val coordSpace = new CoordinateSpace(size, size)
   val sizes = List(5, 4, 3, 3, 2)
   val fleet = Array.tabulate(sizes.size)(x => new Ship(sizes(x)))

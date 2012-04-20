@@ -4,6 +4,7 @@ case object Miss extends Result
 
 class Rules (size: Int) {
   val playerBoard = new Board(size)
+  val AIBoard = new Board(size)
   val coordSpace = new CoordinateSpace(size, size)
   val sizes = List(5, 4, 3, 3, 2)
   val fleet = Array.tabulate(sizes.size)(x => new Ship(sizes(x)))
@@ -67,19 +68,24 @@ class Rules (size: Int) {
   // doesn't
   def setupShip (size: Int) {
     val sizeIndex = size - 1
-    val ship = new Ship(size)
     println ("Placing your ship of size " + size)
-    var coord = getCoord()
-    val vec = getVector()
-    if (!inBoundary(coord.x, vec.i*sizeIndex) || !inBoundary(coord.y, vec.j*sizeIndex)){
+    val start = getCoord()
+    val direction = getVector()
+    if (!inBoundary(start.x, direction.i*sizeIndex) || !inBoundary(start.y, direction.j*sizeIndex)){
       println ("Placing of ship here goes out of bounds, try again")
       setupShip (size)
     } else {
-      for (i <- 0 to sizeIndex){
-        playerBoard.updateShip(coord, ship.getPiece(i))
-        coord = coordSpace.move(coord, vec)
-      }
-      println (playerBoard.toString())
+      placeShip(size, start, direction)
+      println(playerBoard.toString())
+    }
+  }
+  
+  def placeShip(size: Int, s: Coord, direction: Vec) {
+    var start = s
+    val ship = new Ship(size)
+    for (i <- 0 to size - 1){
+      playerBoard.updateShip(start, ship.getPiece(i))
+      start = coordSpace.move(start, direction)
     }
   }
 }

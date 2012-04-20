@@ -75,17 +75,22 @@ class Rules (size: Int) {
       println ("Placing of ship here goes out of bounds, try again")
       setupShip (size)
     } else {
-      placeShip(size, start, direction)
+      placeShip(playerBoard, size, start, direction)
       println(playerBoard.toString())
     }
   }
   
-  def placeShip(size: Int, s: Coord, direction: Vec) {
+  def placeShip (board: Board, size: Int, s: Coord, direction: Vec) {
     var start = s
     val ship = new Ship(size)
     for (i <- 0 to size - 1){
-      playerBoard.updateShip(start, ship.getPiece(i))
+      board.updateShip(start, ship.getPiece(i))
       start = coordSpace.move(start, direction)
     }
+  }
+  
+  // TODO: Come up with an algorithm to place ships
+  private def createAIBoard () {
+    
   }
 }

@@ -11,7 +11,8 @@ case class Cell (var ship: Option[ShipPiece] = None){
 }
 
 case class Board (size: Int) {
-  val cells = Array.tabulate(size,size)((x,y) => new Cell())
+  private val cells = Array.tabulate(size,size)((x,y) => new Cell())
+  
   override def toString = {
     var result = new StringBuilder("   " + Range(0, size).foldLeft("")((a,b) => a + b.toString() + ", "))
     result.append("\n")

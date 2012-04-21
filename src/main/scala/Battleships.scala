@@ -4,6 +4,6 @@ object BattleShips {
         println("Welcome to battle ships!")
         val rules = new Rules(size)
         rules.setup()
-        
+        val winner = rules.play()
     }
 }

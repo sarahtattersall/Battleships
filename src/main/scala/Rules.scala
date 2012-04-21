@@ -8,8 +8,9 @@ class Rules (size: Int) {
   val coordSpace = new CoordinateSpace(size, size)
   val sizes = List(5, 4, 3, 3, 2)
   val fleet = Array.tabulate(sizes.size)(x => new Ship(sizes(x)))
+  var playerShips = List[Ship]()
+  var AIShips = List[Ship]()
   createAIBoard()
-  
   
   def guess (coord: Coord) : Result = {
     val cell = playerBoard.lookup (coord) 
@@ -77,18 +78,23 @@ class Rules (size: Int) {
       println ("Placing of ship here goes out of bounds, try again")
       setupShip (size)
     } else {
-      placeShip(playerBoard, size, start, direction)
+      playerShips = placeShip(playerBoard, playerShips, size, start, direction)
       println(playerBoard.toString())
     }
   }
   
-  def placeShip (board: Board, size: Int, s: Coord, direction: Vec) {
+  def placeShip (board: Board, ships: List[Ship], size: Int, s: Coord, direction: Vec): List[Ship] = {
     var start = s
     val ship = new Ship(size)
     for (i <- 0 to size - 1){
       board.updateShip(start, ship.getPiece(i))
       start = coordSpace.move(start, direction)
     }
+    (ship :: ships)
+  }
+  
+  def play(): Boolean = {
+    true
   }
   
   // TODO: Come up with an algorithm to place ships
@@ -96,7 +102,7 @@ class Rules (size: Int) {
     //sizes.foreach((s: Int) => placeShip(AIBoard, s, new Coord(s,0), new Vec(0,1)))
     val dir = new Vec(0,1)
     sizes.foldLeft(0)((acc, size) => {
-                                      placeShip(AIBoard, size, new Coord(acc, 0), dir)
+                                      AIShips = placeShip(AIBoard, AIShips, size, new Coord(acc, 0), dir)
                                       acc + 1
                                      })
     println("AI BOARD")

@@ -20,8 +20,12 @@ case class Ship (var size: Int, var status: ShipStatus = Alive){
   }
 }
 
-case class ShipPiece (ship: Ship, var status: ShipStatus = Alive) {
+case class ShipPiece (private val ship: Ship, private var status: ShipStatus = Alive) {
   def sink() {
-    
+    status = Sunk
+  }
+  
+  override def toString(): String = {
+    status.toString()
   }
 }

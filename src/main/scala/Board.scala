@@ -4,7 +4,7 @@ import scala.collection.mutable.StringBuilder
 case class Cell (var ship: Option[ShipPiece] = None){
   override def toString = {
     ship match {
-      case Some (piece) => piece.status.toString()
+      case Some (piece) => piece.toString()
       case None => "_"
     }
   }

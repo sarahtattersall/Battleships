@@ -8,12 +8,8 @@ case object Sunk extends ShipStatus {
   override def toString = "S"
 }
 
-// trait componentStatus
-// case object Healthy extends componentStatus
-// case object Wounded extends componentStatus
-
 case class Ship (var size: Int, var status: ShipStatus = Alive){
-  var ships = List[ShipPiece]()
+  private var ships = List[ShipPiece]()
   for (i <- 0  to size){
     ships = new ShipPiece(this) :: ships
   }
@@ -24,4 +20,8 @@ case class Ship (var size: Int, var status: ShipStatus = Alive){
   }
 }
 
-case class ShipPiece (ship: Ship, var status: ShipStatus = Alive)
+case class ShipPiece (ship: Ship, var status: ShipStatus = Alive) {
+  def sink() {
+    
+  }
+}

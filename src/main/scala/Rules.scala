@@ -3,27 +3,36 @@ case object Hit extends Result
 case object Miss extends Result
 
 class Rules (size: Int) {
-  val playerBoard = new Board(size)
-  val AIBoard = new Board(size)
-  val coordSpace = new CoordinateSpace(size, size)
-  val sizes = List(5, 4, 3, 3, 2)
-  val fleet = Array.tabulate(sizes.size)(x => new Ship(sizes(x)))
-  var playerShips = List[Ship]()
-  var AIShips = List[Ship]()
+  private val playerBoard = new Board(size)
+  private val AIBoard = new Board(size)
+  private val coordSpace = new CoordinateSpace(size, size)
+  private val sizes = List(5, 4, 3, 3, 2)
+  private val fleet = Array.tabulate(sizes.size)(x => new Ship(sizes(x)))
+  private var playerShips = List[Ship]()
+  private var AIShips = List[Ship]()
   createAIBoard()
+   
+  def setup () {
+    println (playerBoard.toString())
+    sizes.foreach(setupShip(_))
+  }
+   
+  def play(): Boolean = {
+    true
+  }
   
-  def guess (coord: Coord) : Result = {
+  private def guess (coord: Coord) : Result = {
     val cell = playerBoard.lookup (coord) 
     cell.ship match {
       case Some (piece) => {
-        piece.status = Sunk
+        piece.sink()
         Hit
       }
       case _ => Miss
     }
   }
   
-  def getInput (msg : String, lowerBound: Int, upperBound: Int): Int = {
+  private def getInput (msg : String, lowerBound: Int, upperBound: Int): Int = {
     println (msg)
     try { 
       val res = Console.readInt()    
@@ -41,18 +50,13 @@ class Rules (size: Int) {
 
   }
   
-  def setup () {
-    println (playerBoard.toString())
-    sizes.foreach(setupShip(_))
-  }
-  
-  def getCoord(): Coord = {
+  private def getCoord(): Coord = {
     val x = getInput ("Please enter x coord", 0, playerBoard.size)
     val y = getInput ("Please enter y coord", 0, playerBoard.size)
     new Coord (x,y)
   }
   
-  def getVector(): Vec = {
+  private def getVector(): Vec = {
     val i = getInput ("Please enter x direction", -1, 1)
     val j = getInput ("Please enter y direction", -1, 1)
     if (i == 0 && j == 0) {
@@ -62,14 +66,14 @@ class Rules (size: Int) {
     new Vec (i,j)
   }
   
-  def inBoundary(x: Int, offset: Int): Boolean = {
+  private def inBoundary(x: Int, offset: Int): Boolean = {
     val y = x + offset
     (y >= 0 && y < playerBoard.size)
   }
   
   // TODO: Ensure can't place ontop of another ship, for now assume the user
   // doesn't
-  def setupShip (size: Int) {
+  private def setupShip (size: Int) {
     val sizeIndex = size - 1
     println ("Placing your ship of size " + size)
     val start = getCoord()
@@ -83,7 +87,7 @@ class Rules (size: Int) {
     }
   }
   
-  def placeShip (board: Board, ships: List[Ship], size: Int, s: Coord, direction: Vec): List[Ship] = {
+  private def placeShip (board: Board, ships: List[Ship], size: Int, s: Coord, direction: Vec): List[Ship] = {
     var start = s
     val ship = new Ship(size)
     for (i <- 0 to size - 1){
@@ -91,10 +95,6 @@ class Rules (size: Int) {
       start = coordSpace.move(start, direction)
     }
     (ship :: ships)
-  }
-  
-  def play(): Boolean = {
-    true
   }
   
   // TODO: Come up with an algorithm to place ships

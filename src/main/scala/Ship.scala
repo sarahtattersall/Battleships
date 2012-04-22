@@ -18,6 +18,10 @@ case class Ship (var size: Int, var status: ShipStatus = Alive){
   def getPiece (index: Int): ShipPiece = {
     ships(index)
   }
+  
+  def sank (): Boolean = {
+    !(ships.exists (_.getStatus() == Alive))
+  }
 }
 
 case class ShipPiece (private val ship: Ship, private var status: ShipStatus = Alive) {
@@ -27,5 +31,9 @@ case class ShipPiece (private val ship: Ship, private var status: ShipStatus = A
   
   override def toString(): String = {
     status.toString()
+  }
+  
+  def getStatus(): ShipStatus = {
+    status
   }
 }

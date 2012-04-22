@@ -3,6 +3,7 @@ case object Hit extends Result
 case object Miss extends Result
 
 class Rules (size: Int) {
+  private val io = new IO()
   private val playerBoard = new Board(size)
   private val AIBoard = new Board(size)
   private val coordSpace = new CoordinateSpace(size, size)
@@ -20,8 +21,11 @@ class Rules (size: Int) {
   }
   
   
-  def play(): Boolean = {
-    true
+  def play(){
+    // TODO: WHy does _.sank() not work here?
+    while (playerShips.exists((x) => !x.sank()) && AIShips.exists((x) => !x.sank())){
+      
+    }
   }
   
   // Makes a guess at the given coord in the given board, returns
@@ -37,37 +41,18 @@ class Rules (size: Int) {
     }
   }
   
-  // Displays msg before getting integer input from the user. Tests to see if
-  // lowerBound <= input <= upperBound, if not tries again
-  private def getInput (msg : String, lowerBound: Int, upperBound: Int): Int = {
-    println (msg)
-    try { 
-      val res = Console.readInt()    
-      if (lowerBound <= res && upperBound >= res){
-        res
-      }
-      else {
-        getInput ("Not within bounds, try again", lowerBound, upperBound)
-      }
-    }
-    catch {
-      case e : java.lang.NumberFormatException => 
-        getInput ("Bad Input, try again", lowerBound, upperBound)
-    }
-
-  }
   
   // Gets user input to create a Coord
   private def getCoord(): Coord = {
-    val x = getInput ("Please enter x coord", 0, playerBoard.size)
-    val y = getInput ("Please enter y coord", 0, playerBoard.size)
+    val x = io.getBoundedIntegerInput ("Please enter x coord", 0, playerBoard.size)
+    val y = io.getBoundedIntegerInput ("Please enter y coord", 0, playerBoard.size)
     new Coord (x,y)
   }
   
   // Gets user input to create a Vector
   private def getVector(): Vec = {
-    val i = getInput ("Please enter x direction", -1, 1)
-    val j = getInput ("Please enter y direction", -1, 1)
+    val i = io.getBoundedIntegerInput ("Please enter x direction", -1, 1)
+    val j = io.getBoundedIntegerInput ("Please enter y direction", -1, 1)
     if (i == 0 && j == 0) {
       println ("Error that isn't a proper direction, try again")
       return getVector()

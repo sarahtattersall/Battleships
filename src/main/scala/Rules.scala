@@ -41,25 +41,6 @@ class Rules (size: Int) {
     }
   }
   
-  
-  // Gets user input to create a Coord
-  private def getCoord(): Coord = {
-    val x = io.getBoundedIntegerInput ("Please enter x coord", 0, playerBoard.size)
-    val y = io.getBoundedIntegerInput ("Please enter y coord", 0, playerBoard.size)
-    new Coord (x,y)
-  }
-  
-  // Gets user input to create a Vector
-  private def getVector(): Vec = {
-    val i = io.getBoundedIntegerInput ("Please enter x direction", -1, 1)
-    val j = io.getBoundedIntegerInput ("Please enter y direction", -1, 1)
-    if (i == 0 && j == 0) {
-      println ("Error that isn't a proper direction, try again")
-      return getVector()
-    }
-    new Vec (i,j)
-  }
-  
   // Checks if x is within the board boundary
   private def inBoundary(board: Board, x: Int, offset: Int): Boolean = {
     val y = x + offset
@@ -72,8 +53,8 @@ class Rules (size: Int) {
   private def setupShip (size: Int) {
     val sizeIndex = size - 1
     println ("Placing your ship of size " + size)
-    val start = getCoord()
-    val direction = getVector()
+    val start = io.getCoord(0, playerBoard.size)
+    val direction = io.getVector()
     if (!inBoundary(playerBoard, start.x, direction.i*sizeIndex) 
         || !inBoundary(playerBoard, start.y, direction.j*sizeIndex)){
       println ("Placing of ship here goes out of bounds, try again")

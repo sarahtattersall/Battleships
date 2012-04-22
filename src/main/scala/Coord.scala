@@ -1,6 +1,7 @@
 case class Coord (x: Int, y: Int)
 case class Vec (i: Int, j: Int)
-case class CoordinateSpace (width: Int, height: Int){
+case class CoordinateSpace (private val width: Int, private val height: Int){
+  // Returns a new coord moved in direction vector
   def move (coord: Coord, vector: Vec) : Coord = {
     val x = coord.x + vector.i
     if (x < 0 || x >= width)

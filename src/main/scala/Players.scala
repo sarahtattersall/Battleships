@@ -1,4 +1,4 @@
-abstract class Player(private val board: Board) {
+abstract class Player(private val board: Board, private val io: IO) {
   protected var ships = List[Ship]()
   
   def guess(): Coord
@@ -26,8 +26,7 @@ abstract class Player(private val board: Board) {
   }
   
 }
-case class HumanPlayer(board: Board) extends Player(board) {
-  private val io = new IO()
+case class HumanPlayer(board: Board, io: IO) extends Player(board, io) {
   
   def guess (): Coord = {
     io.getCoord(0, board.size)
@@ -56,7 +55,7 @@ case class HumanPlayer(board: Board) extends Player(board) {
     (y >= 0 && y < board.size)
   }  
 }
-case class AIPlayer(board: Board) extends Player(board) {
+case class AIPlayer(board: Board, io: IO) extends Player(board, io) {
 
   def guess (): Coord = {
     new Coord (0,0)

@@ -2,11 +2,10 @@ trait Result
 case object Hit extends Result
 case object Miss extends Result
 
-class Rules (size: Int) {
-  private val io = new IO()
+class Rules (size: Int, private val io: IO) {
   private val coordSpace = new CoordinateSpace(size, size)
-  private val AIPlayer = new AIPlayer(new Board(size))
-  private val humanPlayer = new HumanPlayer(new Board(size))
+  private val AIPlayer = new AIPlayer(new Board(size), io)
+  private val humanPlayer = new HumanPlayer(new Board(size), io)
   private val sizes = List(5, 4, 3, 3, 2)
   private val fleet = Array.tabulate(sizes.size)(x => new Ship(sizes(x)))
   

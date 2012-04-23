@@ -1,6 +1,10 @@
+trait PlayerType
+case object Human extends PlayerType
+case object Computer extends PlayerType
+
 abstract class Player(private val board: Board, private val io: IO) {
   protected var ships = List[Ship]()
-  
+  def playerType(): PlayerType
   def guess(): Coord
     
   def getBoard (): Board = {
@@ -27,6 +31,7 @@ abstract class Player(private val board: Board, private val io: IO) {
   
 }
 case class HumanPlayer(board: Board, io: IO) extends Player(board, io) {
+  def playerType (): PlayerType = Human
   
   def guess (): Coord = {
     io.getCoord(0, board.size)
@@ -56,7 +61,7 @@ case class HumanPlayer(board: Board, io: IO) extends Player(board, io) {
   }  
 }
 case class AIPlayer(board: Board, io: IO) extends Player(board, io) {
-
+  def playerType (): PlayerType = Computer
   def guess (): Coord = {
     new Coord (0,0)
   }

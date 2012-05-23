@@ -4,8 +4,8 @@ case object Miss extends Result
 
 class Rules (size: Int, private val io: IO) {
   private val coordSpace = new CoordinateSpace(size, size)
-  private val AIPlayer = new AIPlayer(new Board(size), io)
-  private val humanPlayer = new HumanPlayer(new Board(size), io)
+  private val aiPlayer = new Player(new Board(size), new AILogic() )
+  private val humanPlayer = new Player(new Board(size), new HumanLogic(io) )
   private val sizes = List(5, 4, 3, 3, 2)
   private val fleet = Array.tabulate(sizes.size)(x => new Ship(sizes(x)))
   
@@ -15,7 +15,7 @@ class Rules (size: Int, private val io: IO) {
     //AIPlayer.setupBoard(sizes, coordSpace)
     println (humanPlayer.getBoard().toString())
     sizes.foreach((x) => {
-                    AIPlayer.setupShip(x, coordSpace)
+                    aiPlayer.setupShip(x, coordSpace)
                     humanPlayer.setupShip(x, coordSpace)
                     println(humanPlayer.getBoard().toString())
                     })
@@ -23,7 +23,7 @@ class Rules (size: Int, private val io: IO) {
   
   
   def play(){
-    while (humanPlayer.alive() && AIPlayer.alive()){
+    while (humanPlayer.alive() && aiPlayer.alive()){
       
     }
   }

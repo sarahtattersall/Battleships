@@ -12,9 +12,10 @@ class Rules (size: Int, private val io: IO) {
   // Displays the players board and then calls setupShip for each
   // of the available ships with sizes dictated in sizes
   def setup () {
-    AIPlayer.setupBoard(sizes, coordSpace)
+    //AIPlayer.setupBoard(sizes, coordSpace)
     println (humanPlayer.getBoard().toString())
     sizes.foreach((x) => {
+                    AIPlayer.setupShip(x, coordSpace)
                     humanPlayer.setupShip(x, coordSpace)
                     println(humanPlayer.getBoard().toString())
                     })

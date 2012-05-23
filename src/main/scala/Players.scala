@@ -6,6 +6,7 @@ abstract class Player(private val board: Board, private val io: IO) {
   protected var ships = List[Ship]()
   def playerType(): PlayerType
   def guess(): Coord
+  def setupShip(size: Int, coordSpace: CoordinateSpace) : Unit
     
   def getBoard (): Board = {
     board
@@ -30,6 +31,9 @@ abstract class Player(private val board: Board, private val io: IO) {
   }
   
 }
+
+// TODO: Implement strategy design pattern?
+// Template Design Pattern
 case class HumanPlayer(board: Board, io: IO) extends Player(board, io) {
   def playerType (): PlayerType = Human
   
@@ -61,20 +65,20 @@ case class HumanPlayer(board: Board, io: IO) extends Player(board, io) {
   }  
 }
 case class AIPlayer(board: Board, io: IO) extends Player(board, io) {
+  var lastPlaced = 0
+
   def playerType (): PlayerType = Computer
+
   def guess (): Coord = {
     new Coord (0,0)
   }
   
     
   // TODO: Come up with an algorithm to place ships
-  // Creates a basic AIBoard with ships placed.
-  def setupBoard (sizes: List[Int], coordSpace: CoordinateSpace) {
+  // Places a ship on the board
+  def setupShip (size: Int, coordSpace: CoordinateSpace) {
     val dir = new Vec(0,1)
-    sizes.foldLeft(0)((acc, size) => 
-      {
-        ships = placeShip (size, new Coord(acc, 0), dir, coordSpace)
-        acc + 1
-       })
+    ships = placeShip (size, new Coord(lastPlaced, 0), dir, coordSpace)
+    lastPlaced += 1
   }
 }

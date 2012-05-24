@@ -19,7 +19,7 @@ abstract class ShipLogic() {
   def guess(board: Board): Coord
 }
 
-case class AILogic() extends ShipLogic{
+case class AILogic() extends ShipLogic {
   var lastPlaced = 0
 
   def guess (board: Board): Coord = {
@@ -54,9 +54,23 @@ case class HumanLogic(private val io: IO) extends ShipLogic {
         || !inBoundary(board, start.y, direction.j*sizeIndex)){
       println ("Placing of ship here goes out of bounds, try again")
       setupShip (size, coordSpace, board)
+    } else if (alreadyPlaced(size, start, direction, coordSpace, board)) {
+      println ("Placing ship ontop of an already placed ship, try again")
+      setupShip (size, coordSpace, board)
     } else {
       placeShip (size, start, direction, coordSpace, board)
     }
+  }
+
+  protected def alreadyPlaced (size: Int, start: Coord, direction: Vec, coordSpace: CoordinateSpace, board: Board): Boolean = {
+    var coord = start
+    for (i <- 0 to size - 1){
+      // TODO: How to avoid warning just have if
+      board.lookup(start).ship match {
+        case Some (piece) => return false
+      }
+    }
+    false
   }
 
   // Checks if x is within the board boundary
@@ -88,3 +102,4 @@ case class Player(private val board: Board, private val shipLogic: ShipLogic) {
   def setupShip(size: Int, coordSpace: CoordinateSpace) = {
     ships = shipLogic.setupShip(size, coordSpace, board) :: ships
   }
+}
